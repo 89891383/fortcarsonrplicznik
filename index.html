@@ -92,27 +92,16 @@
 </div>
 
 <script>
-  // Funkcja do odświeżenia iframe i sprawdzenia zmiany
-  const iframe = document.getElementById('serverIframe');
-  let previousContent = '';
-
   setInterval(() => {
-    fetch(iframe.src)
-      .then(response => response.text())
-      .then(newContent => {
-        if (newContent !== previousContent) {
-          previousContent = newContent;
-          iframe.src = iframe.src.split('?')[0] + '?' + new Date().getTime();
-        }
-      })
-      .catch(err => console.error('Błąd podczas odświeżania iframe:', err));
+    const iframe = document.getElementById('serverIframe');
+    iframe.src = iframe.src.split('?')[0] + '?' + new Date().getTime();
   }, 3000);
 </script>
 
+
   <!-- Stopka -->
   <footer>
-    <p>Jestem tylko użytkownikiem, a nie administratorem Fort Carson RP.</p>
-    <p>Twórca strony: <strong>Vehhty</strong> <i class="fa-solid fa-heart" style="color: red;"></i></p>
+    <p>tworca strony: <strong>vehhty</strong> <i class="fa-solid fa-heart" style="color: red;"></i></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
