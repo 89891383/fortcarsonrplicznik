@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fort Carson Roleplay MTA</title>
-  
+
   <!-- Materialize -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  
-  <!-- Fonts & Icons -->
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
 
   <style>
     body {
@@ -22,34 +22,24 @@
       color: #ffffff;
       font-family: 'Inter', sans-serif;
     }
+
     header {
       text-align: center;
       padding: 50px 0;
     }
+
     .server-info {
       display: flex;
       justify-content: center;
       margin: 30px 0;
     }
-    .server-frame {
-      border: 3px solid #D12626;
-      border-radius: 8px;
+
+    iframe {
+      border: none;
       width: 220px;
       height: 266px;
     }
-    .discord-btn {
-      background-color: #5865F2;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      text-align: center;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .discord-btn:hover {
-      background-color: #404EED;
-    }
+
     footer {
       text-align: center;
       padding: 20px 0;
@@ -57,32 +47,24 @@
       font-size: 14px;
       color: #bbbbbb;
     }
+
     footer a {
       color: #FF6F61;
       text-decoration: none;
     }
-    .navbar {
-      background-color: #1b1b1b;
-      padding: 15px;
-    }
-    .brand-logo {
-      font-weight: 700;
-    }
-    .container {
-      margin-top: 50px;
-    }
   </style>
 </head>
 <body>
-
   <!-- Nawigacja -->
-  <nav class="navbar">
-    <div class="nav-wrapper container">
-      <a href="#" class="brand-logo">Fort Carson Roleplay</a>
-      <ul id="nav-mobile" class="right">
-        <li><a href="https://discord.gg/WD8sMR4EeY" target="_blank" class="discord-btn">
-          <i class="fa fa-discord"></i> Dołącz na Discorda
-        </a></li>
+  <nav>
+    <div class="nav-wrapper black">
+      <a href="#" class="brand-logo center">Fort Carson Roleplay</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li>
+          <a class="btn blue darken-3 white-text" href="https://discord.gg/WD8sMR4EeY" target="_blank">
+            <i class="fa fa-discord"></i> Dołącz na Discorda
+          </a>
+        </li>
       </ul>
     </div>
   </nav>
@@ -90,40 +72,37 @@
   <!-- Główna sekcja -->
   <header>
     <h1>Fort Carson Roleplay MTA</h1>
-    <p>Polski serwer roleplay na platformie MTA</p>
+    <p>polski serwer roleplay na platformie mta</p>
   </header>
 
   <!-- Licznik graczy -->
   <div class="server-info">
-    <iframe id="serverIframe" class="server-frame" 
-      src="https://www.game-state.com/iframe.php?ip=51.83.182.33&port=20976&bgcolor=363636&bordercolor=000000&fieldcolor=FFFFFF&valuecolor=EDEDED&oddrowscolor=4D4D4D&showgraph=false&showplayers=true&graphvalues=EDEDED&graphaxis=FFFFFF&width=220&graph_height=105&plist_height=101&font_size=9" 
-      frameborder="0" scrolling="no">
-    </iframe>
+    <iframe id="serverIframe" src="https://www.game-state.com/iframe.php?ip=51.83.182.33&port=20976&bgcolor=363636&bordercolor=000000&fieldcolor=FFFFFF&valuecolor=EDEDED&oddrowscolor=4D4D4D&showgraph=false&showplayers=true&graphvalues=EDEDED&graphaxis=FFFFFF&width=220&graph_height=105&plist_height=101&font_size=9"></iframe>
   </div>
 
   <!-- Stopka -->
   <footer>
-    <p>Jestem tylko użytkownikiem, a nie administratorem Fort Carson RP.</p>
-    <p>Twórca strony: <strong>Vehhty</strong> <i class="fa fa-heart" style="color: red;"></i></p>
+    <p>jestem tylko użytkownikiem, a nie administratorem fort carson rp.</p>
+    <p>twórca strony: <strong>vehhty</strong> <i class="fa fa-heart" style="color: red;"></i></p>
   </footer>
 
   <script>
-    // Odświeżanie iframe co 3 sekundy tylko przy zmianie treści
-    const iframe = document.getElementById('serverIframe');
-    let previousContent = '';
+    // odświeżanie iframe co 3 sekundy, ale tylko przy zmianach
+    let lastContent = "";
 
-    setInterval(() => {
-      fetch(iframe.src)
-        .then(response => response.text())
-        .then(newContent => {
-          if (newContent !== previousContent) {
-            previousContent = newContent;
-            iframe.src = iframe.src.split('?')[0] + '?' + new Date().getTime();
-          }
-        })
-        .catch(err => console.error('Błąd podczas odświeżania iframe:', err));
+    setInterval(async () => {
+      try {
+        const response = await fetch("https://www.game-state.com/51.83.182.33:20976/");
+        const text = await response.text();
+
+        if (text !== lastContent) {
+          document.getElementById('serverIframe').src = "https://www.game-state.com/iframe.php?ip=51.83.182.33&port=20976&bgcolor=363636&bordercolor=000000&fieldcolor=FFFFFF&valuecolor=EDEDED&oddrowscolor=4D4D4D&showgraph=false&showplayers=true&graphvalues=EDEDED&graphaxis=FFFFFF&width=220&graph_height=105&plist_height=101&font_size=9&timestamp=" + new Date().getTime();
+          lastContent = text;
+        }
+      } catch (e) {
+        console.error("Błąd aktualizacji iframe", e);
+      }
     }, 3000);
   </script>
-
 </body>
 </html>
